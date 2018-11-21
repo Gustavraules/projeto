@@ -3,7 +3,7 @@ const main = body.querySelector('main')
 const header = body.querySelector('header')
 const section = body.querySelector('section')
 const ul = header.querySelector('ul')
-
+const p = body.querySelector('p#tempo')
 getCategorias()
 getPost()
 
@@ -53,3 +53,20 @@ async function getPost(idCategoria=null){
 		main.appendChild(div)
 	}
 }
+	
+navigator.geolocation.getCurrentPosition(pos => {
+                pegarAlocaliza(pos.coords.latitude,pos.coords.longitude)
+            })
+        
+
+async function pegarAlocaliza(lat,lng){
+
+	let url="http://api.openweathermap.org/data/2.5/weather?lat="+lat+"&lon="+lng+"&units=metric&lang=pt&APPID=c144ba4eaa5f0aebc01c661169701dc7"
+	var request = await fetch(url)
+	var previsao = await request.json()
+	console.log(previsao.name)
+	p.innerText = previsao.name + previsao.main.temp
+	
+}
+
+
